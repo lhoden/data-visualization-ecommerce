@@ -7,6 +7,7 @@ import PieChart from './components/pie-chart/PieChart';
 import { Button } from '@mui/material';
 import { csv } from "d3-fetch";
 import * as am5 from "@amcharts/amcharts5";
+import { ClimbingBoxLoader } from "react-spinners";
 
 function App() {
   const [mapIsActive, setMapIsActive] = useState(true);
@@ -18,7 +19,7 @@ function App() {
   const [rainbowChartData, setRainbowChartData] = useState<any[]>([]);
   const [pieChartData, setPieChartData] = useState<any[]>([]);
   const [overallRevenue, setOverallRevenue] = useState(0);
-                
+
   useEffect(() => {
     csv('data.csv').then((data: any) => {
       setData(data);
@@ -84,7 +85,7 @@ function App() {
       const filterByDate = data.filter((invoice: any) => invoice['InvoiceDate'].substring(0, invoice['InvoiceDate'].indexOf(' ')) === date);
       datedData.push({date: newDate.getTime(), value: filterByDate.length});
     });
-    console.log('curious about this: ', revenue);
+    console.log('curious about this: ', organizedData);
     setOverallRevenue(revenue);
     setPieChartData(result);
     setMapChartData(organizedData);
@@ -102,14 +103,21 @@ function App() {
   // maybe try loading the data here and then passing it to each individual component ... 
   // try this but ultimately recognize that it might be better to go ahead and pass it in for each individual component
 
+  console.log('uhhh', mapChartData);
+
   return (
     <>
       <Button onClick={() => {handleMapToggle('map')}}>Map</Button>
       {/* <Button onClick={() => {handleMapToggle('standard')}}>Standard Chart</Button> */}
       <Button onClick={() => {handleMapToggle('rainbow')}}>Rainbow Chart</Button>
       <Button onClick={() => {handleMapToggle('pie')}}>Pie Chart</Button>
-      {mapIsActive &&
+      {(mapIsActive && mapChartData.length > 0) ? (
         <Map data={mapChartData} />
+        ) : (
+          <div className="loader-guy" style={mapIsActive ? {display: 'flex'} : {display: 'none'}}>
+            <ClimbingBoxLoader color="#213547" size={30} />
+          </div>
+        )
       }
       {standardChartIsActive &&
         <StandardChart/>

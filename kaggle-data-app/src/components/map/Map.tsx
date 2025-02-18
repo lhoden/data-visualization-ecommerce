@@ -1,11 +1,11 @@
 /* Imports */
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState, useEffect } from 'react';
 import { MapChart, geoOrthographic, MapPolygonSeries, getGeoRectangle, GraticuleSeries } from "@amcharts/amcharts5/map";
 import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import * as am5 from "@amcharts/amcharts5";
 
-function Map() {
+function Map(props: any) {
     const [open, setOpen] = useState(false);
     useLayoutEffect(() => {
         /* Chart code */
@@ -30,6 +30,12 @@ function Map() {
             paddingLeft: 20,
             paddingRight: 20
         }));
+
+        console.log('huh: ', props.data)
+
+        props.data.forEach((entry: any) => {
+            console.log('test: ', entry);
+        });
 
         // TODO: okay so we just need to modify this!!! Iterate through this really quickly with a for each and 
         // create a new data structure that is identical to this but within properties includes the # of invoices
@@ -100,7 +106,7 @@ function Map() {
             clickedElement = target;
             setTimeout(function() {
                 clickedElement = null;
-            }, 1000);
+            }, 300);
         });
 
         function selectCountry(id: any) {
