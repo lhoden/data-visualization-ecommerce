@@ -4,10 +4,11 @@ import Map from './components/map/Map';
 import StandardChart from './components/standard-chart/StandardChart';
 import RainbowChart from './components/rainbow-chart/RainbowChart';
 import PieChart from './components/pie-chart/PieChart';
-import { Button } from '@mui/material';
+import { Button } from 'antd';
 import { csv } from "d3-fetch";
 import * as am5 from "@amcharts/amcharts5";
 import { ClimbingBoxLoader } from "react-spinners";
+
 
 function App() {
   const [mapIsActive, setMapIsActive] = useState(true);
@@ -102,9 +103,7 @@ function App() {
 
   // maybe try loading the data here and then passing it to each individual component ... 
   // try this but ultimately recognize that it might be better to go ahead and pass it in for each individual component
-
-  console.log('uhhh', mapChartData);
-
+  
   return (
     <>
       <Button onClick={() => {handleMapToggle('map')}}>Map</Button>

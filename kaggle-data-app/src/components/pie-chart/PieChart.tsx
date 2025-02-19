@@ -22,7 +22,9 @@ function DividedPieChart(props: any) {
     // Create chart
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
     let chart = root.container.children.push(PieChart.new(root, {
-        layout: root.verticalLayout
+        layout: root.verticalLayout,
+        radius: am5.percent(70),
+        
     }));
 
 
@@ -30,7 +32,8 @@ function DividedPieChart(props: any) {
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
     let series = chart.series.push(PieSeries.new(root, {
         valueField: "value",
-        categoryField: "category"
+        categoryField: "category",
+        alignLabels: false
     }));
 
 
@@ -47,18 +50,34 @@ function DividedPieChart(props: any) {
     // ]);
     series.data.setAll(props.data);
 
-
     // Create legend
     // https://www.amcharts.com/docs/v5/charts/percent-charts/legend-percent-series/
     let legend = chart.children.push(am5.Legend.new(root, {
         centerX: am5.percent(50),
         x: am5.percent(50),
         marginTop: 15,
-        marginBottom: 15
+        marginBottom: 15,
     }));
 
-    legend.data.setAll(series.dataItems);
+    series.labels.template.setAll({
+        text: "{category}"
+    });
 
+    series.events.on("datavalidated", function() {
+        am5.array.each(series.dataItems, function(dataItem) {
+          if (dataItem.get("category") == "United Kingdom") {
+            dataItem.hide();
+            legend.data.push(dataItem);
+          } else if (dataItem.get("value") <= 2000) {
+            dataItem.hide();
+            legend.data.push(dataItem);
+            console.log('okay: ', dataItem);
+          }
+          else {
+            legend.data.push(dataItem);
+          }
+        })
+    });
 
     // Play initial series animation
     // https://www.amcharts.com/docs/v5/concepts/animations/#Animation_of_series

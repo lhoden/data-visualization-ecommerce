@@ -1,12 +1,85 @@
 /* Imports */
-import { useLayoutEffect, useState, useEffect } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { MapChart, geoOrthographic, MapPolygonSeries, getGeoRectangle, GraticuleSeries } from "@amcharts/amcharts5/map";
 import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import * as am5 from "@amcharts/amcharts5";
+import { StyledTable } from './Map.styled';
+import { Space, Table, Tag } from 'antd';
+import type { TableProps } from 'antd';
 
 function Map(props: any) {
-    const [open, setOpen] = useState(false);
+    const [showTable, setShowTable] = useState(false);
+    const [filteredData, setFilteredData] = useState<any[]>([]);
+
+    const dataSource = [
+        {
+          key: '1',
+          country: 'Brazil',
+          customerId: 32,
+          description: 'Cool product name',
+          invoiceDate: '',
+          invoiceNo: '',
+          quantity: '',
+          stockCode: '',
+          unitPrice: '',
+        },
+        {
+          key: '2',
+          country: 'Brazil',
+          customerId: 32,
+          description: 'Cool product name',
+          invoiceDate: '',
+          invoiceNo: '',
+          quantity: '',
+          stockCode: '',
+          unitPrice: '',
+        },
+      ];
+      
+      const columns = [
+        {
+            title: 'Country',
+            dataIndex: 'country',
+            key: 'country',
+        },
+        {
+            title: 'Customer Id',
+            dataIndex: 'customerId',
+            key: 'customerId',
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
+        },
+        {
+            title: 'Invoice Date',
+            dataIndex: 'invoiceDate',
+            key: 'invoiceDate',
+        },
+        {
+            title: 'Invoice No',
+            dataIndex: 'invoiceNo',
+            key: 'invoiceNo',
+        },
+        {
+            title: 'Quantity',
+            dataIndex: 'quantity',
+            key: 'quantity',
+        },
+        {
+            title: 'Stock Code',
+            dataIndex: 'stockCode',
+            key: 'stockCode',
+        },
+        {
+            title: 'Unit Price',
+            dataIndex: 'unitPrice',
+            key: 'unitPrice',
+        },
+    ];
+
     useLayoutEffect(() => {
         /* Chart code */
         // Create root element
@@ -31,11 +104,30 @@ function Map(props: any) {
             paddingRight: 20
         }));
 
-        console.log('huh: ', props.data)
-
-        props.data.forEach((entry: any) => {
-            console.log('test: ', entry);
-        });
+        let grabSomeCoolData = (name: 'string') => {
+            let countryData: any[] = [];
+            props.data.forEach((entry: any) => {
+                console.log('huh: ', entry[0]['Country']);
+                if (entry[0]['Country'] === name) {
+                    console.log('YAYYYY: ', entry);
+                    //
+                    entry.forEach((row: any, index: number) => {
+                        countryData.push({
+                            key: index,
+                            country: row['Country'],
+                            customerId: row['CustomerID'],
+                            description: row['Description'],
+                            invoiceDate: row['InvoiceDate'],
+                            invoiceNo: row['InvoiceNo'],
+                            quantity: row['Quantity'],
+                            stockCode: row['StockCode'],
+                            unitPrice: row['UnitPrice'],
+                        })
+                    })
+                    setFilteredData(countryData);
+                }
+            });
+        }
 
         // TODO: okay so we just need to modify this!!! Iterate through this really quickly with a for each and 
         // create a new data structure that is identical to this but within properties includes the # of invoices
@@ -63,7 +155,6 @@ function Map(props: any) {
             fill: root.interfaceColors.get("primaryButtonHover")
         });
 
-
         // Create series for background fill
         // https://www.amcharts.com/docs/v5/charts/map-chart/map-polygon-series/#Background_polygon
         let backgroundSeries = chart.series.push(MapPolygonSeries.new(root, {}));
@@ -84,6 +175,13 @@ function Map(props: any) {
 
         graticuleSeries.mapLines.template.set("strokeOpacity", 0.1)
 
+        let handleDoubleClick = (element: any) => {
+            console.log('clicked element: ', element.dataItem, element.dataItem.get("id"), element.dataItem.dataContext.name);
+
+            grabSomeCoolData(element.dataItem.dataContext.name);
+            setShowTable(true);
+        }
+
         // Set up events
         let previousPolygon: any;
         let clickedElement: any;
@@ -99,7 +197,7 @@ function Map(props: any) {
             }
             previousPolygon = target;
             if (clickedElement && clickedElement === target) {
-                alert("double clicked");
+                handleDoubleClick(clickedElement);
                 // we're going to open a dialog here by setting open to true
                 return;
             }
@@ -132,8 +230,14 @@ function Map(props: any) {
 
     return (
       <>
-        <h1>Customer Map</h1>
-        <div id="chartdiv" style={{ width: "100%", height: "80%" }}></div>
+        {!showTable ? (
+            <>
+                <h1>Customer Map</h1>
+                <div id="chartdiv" style={{ width: "100%", height: "80%" }}></div>
+            </>
+        ) : (
+            <StyledTable dataSource={filteredData} columns={columns} />
+        )}
       </>
     );
 }
