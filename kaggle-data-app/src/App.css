@@ -108,3 +108,7 @@ h1 {
 .ant-page-header-heading-title {
   display: none;
 }
+
+:where(.css-dev-only-do-not-override-19lec04).ant-statistic {
+  margin-right: 10em;
+}

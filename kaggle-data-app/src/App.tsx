@@ -187,9 +187,8 @@ function App() {
             <Statistic style={{color: '#fff'}} title="Status" value="Pending" />
             <Statistic
               title="Primary"
-              value="UK"
+              value="United Kingdom"
               style={{
-                margin: '0 32px',
                 color: '#fff !important'
               }}
             />
