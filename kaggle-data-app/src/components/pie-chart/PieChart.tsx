@@ -91,8 +91,7 @@ function DividedPieChart(props: any) {
     return (
         <>
           <h1>Countries and percent of total revenue</h1>
-          <h3>Total revenue: ${props.totalRevenue}</h3>
-          <div id="chartdiv" style={{ width: "100%", height: "80%" }}></div>
+          <div id="chartdiv"></div>
         </>
     );
 }

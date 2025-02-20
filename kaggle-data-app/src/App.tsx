@@ -4,11 +4,48 @@ import Map from './components/map/Map';
 import StandardChart from './components/standard-chart/StandardChart';
 import RainbowChart from './components/rainbow-chart/RainbowChart';
 import PieChart from './components/pie-chart/PieChart';
-import { Button } from 'antd';
+import { Button, Menu, Tag, Row, Statistic } from 'antd';
+import type { MenuProps } from 'antd';
 import { csv } from "d3-fetch";
 import * as am5 from "@amcharts/amcharts5";
 import { ClimbingBoxLoader } from "react-spinners";
+import { PageHeader } from '@ant-design/pro-layout';
+import logo from './bars-logo.png';
 
+import {
+  AppstoreOutlined,
+  DesktopOutlined,
+  MailOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  PieChartOutlined,
+  BarChartOutlined,
+  RadarChartOutlined,
+} from '@ant-design/icons';
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: 'group',
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem('Customer Map', '1', <RadarChartOutlined />),
+  getItem('Time Series Chart', '2', <BarChartOutlined />),
+  getItem('Profit Margin', '3', <PieChartOutlined />),
+];
 
 function App() {
   const [mapIsActive, setMapIsActive] = useState(true);
@@ -21,6 +58,11 @@ function App() {
   const [rainbowChartData, setRainbowChartData] = useState<any[]>([]);
   const [pieChartData, setPieChartData] = useState<any[]>([]);
   const [overallRevenue, setOverallRevenue] = useState(0);
+  const [collapsed, setCollapsed] = useState(true);
+
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
 
   useEffect(() => {
     csv('data.csv').then((data: any) => {
@@ -29,18 +71,21 @@ function App() {
     });
   }, []);
 
-  const handleMapToggle = (id: string) => {
+  const handleMapToggle = (e: any) => {
+    console.log('test: ', e.key);
+    const selected = items.find(x => x?.key === e.key);
+    console.log('huh: ', JSON.stringify(selected).includes('Map'));
     setMapIsActive(false);
     setStandardChartIsActive(false);
     setRainbowChartIsActive(false);
     setPieChartIsActive(false);
-    if (id.includes('map')) {
+    if (JSON.stringify(selected).includes('Map')) {
       setMapIsActive(true);
-    } else if (id.includes('standard')) {
+    } else if (JSON.stringify(selected).includes('standard')) {
       setStandardChartIsActive(true);
-    } else if (id.includes('rainbow')) {
+    } else if (JSON.stringify(selected).includes('Time')) {
       setRainbowChartIsActive(true);
-    } else if (id.includes('pie')) {
+    } else if (JSON.stringify(selected).includes('Profit')) {
       setPieChartIsActive(true);
     }
   }
@@ -108,10 +153,52 @@ function App() {
 
   return (
     <>
-      <Button onClick={() => {handleMapToggle('map')}}>Map</Button>
-      {/* <Button onClick={() => {handleMapToggle('standard')}}>Standard Chart</Button> */}
-      <Button onClick={() => {handleMapToggle('rainbow')}}>Rainbow Chart</Button>
-      <Button onClick={() => {handleMapToggle('pie')}}>Pie Chart</Button>
+      <div style={{ width: 256 }} className="menu-container">
+        <Menu
+          defaultSelectedKeys={['1']}
+          defaultOpenKeys={['sub1']}
+          mode="inline"
+          theme="dark"
+          onClick={(e) => {handleMapToggle(e)}}
+          inlineCollapsed={collapsed}
+          items={items}
+        />
+      </div>
+
+      <div className="bi-header">
+        <div className="logo-container">
+          <img src={logo} />
+          <h2>BI Tool</h2>
+        </div>
+        <PageHeader
+          onBack={() => window.history.back()}
+          title="Title"
+          tags={<Tag color="blue">Running</Tag>}
+          subTitle="Chart data"
+          extra={[
+            <Button key="3">Operation</Button>,
+            <Button key="2">Operation</Button>,
+            <Button key="1" type="primary">
+              Primary
+            </Button>,
+          ]}
+        >
+          <Row>
+            <Statistic style={{color: '#fff'}} title="Status" value="Pending" />
+            <Statistic
+              title="Primary"
+              value="UK"
+              style={{
+                margin: '0 32px',
+                color: '#fff !important'
+              }}
+            />
+            <Statistic style={{color: '#fff'}} title="Revenue" prefix="$" value={overallRevenue.toFixed(2)} />
+          </Row>
+        </PageHeader>
+
+      </div>
+
       {(mapIsActive && mapChartData.length > 0) ? (
         <Map data={mapChartData} countries={countryList} />
         ) : (

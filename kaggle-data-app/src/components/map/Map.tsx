@@ -150,7 +150,8 @@ function Map(props: any) {
         // https://www.amcharts.com/docs/v5/charts/map-chart/map-polygon-series/#Background_polygon
         let backgroundSeries = chart.series.push(MapPolygonSeries.new(root, {}));
             backgroundSeries.mapPolygons.template.setAll({
-            fill: root.interfaceColors.get("alternativeBackground"),
+            // fill: root.interfaceColors.get("alternativeBackground"),
+            fill: am5.color('#1E90FF'),
             fillOpacity: 0.1,
             strokeOpacity: 0
         });
@@ -213,7 +214,7 @@ function Map(props: any) {
             ev.target.mapPolygons.each(function(polygon) {
                 if (props.countries.includes(polygon.dataItem.dataContext.name)) {
                     polygon.adapters.add("fill", function(fill, target) {
-                        return am5.color('#FEDC56');
+                        return am5.color('#FFD700');
                     });
                 }
             });
@@ -232,7 +233,7 @@ function Map(props: any) {
         {!showTable ? (
             <>
                 <h1>Customer Map</h1>
-                <div id="chartdiv" style={{ width: "100%", height: "80%" }}></div>
+                <div id="chartdiv"></div>
             </>
         ) : (
             <>

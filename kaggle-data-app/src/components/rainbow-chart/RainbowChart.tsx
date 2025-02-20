@@ -177,7 +177,7 @@ return () => {
 return (
   <>
     <h1>Number of Orders per Date</h1>
-    <div id="chartdiv" style={{ width: "100%", height: "80%" }}></div>
+    <div id="chartdiv"></div>
   </>
 );
 }

@@ -1,7 +1,6 @@
 #root {
   min-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -49,4 +48,63 @@
 .back-button-container {
   margin-top: 2em;
   text-align: left;
+}
+
+.menu-container {
+  position: absolute;
+}
+
+.menu-container ul {
+  margin-top: 19.5em;
+}
+
+h1 {
+  width: 95%;
+  float: right;
+}
+
+#chartdiv {
+  width: 95%;
+  height: 70%;
+  float: right;
+}
+
+.bi-header {
+  background: #001529;
+}
+
+.ant-page-header-heading-title, .ant-page-header-heading-sub-title, .ant-statistic-content-value, .ant-statistic-title, .ant-statistic-content-prefix, .ant-page-header-back-button {
+  color: lightgrey !important;
+}
+
+:where(.css-dev-only-do-not-override-19lec04).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-19lec04).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+  background: #FFD700;
+}
+
+.logo-container {
+  display: flex;
+}
+
+.logo-container h2 {
+  margin-top: 1.5em;
+  color: lightgrey !important;
+}
+
+.ant-page-header .ant-page-header-heading-left {
+  position: absolute;
+  top: 2em;
+  right: 0;
+}
+
+.ant-page-header .ant-page-header-heading {
+  float: right;
+  margin-top: -5em;
+}
+
+.ant-page-header-content {
+  padding: 0 !important;
+}
+
+.ant-page-header-heading-title {
+  display: none;
 }
