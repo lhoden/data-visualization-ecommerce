@@ -45,3 +45,8 @@
   justify-content: center;
   margin-top: 20vh;
 }
+
+.back-button-container {
+  margin-top: 2em;
+  text-align: left;
+}

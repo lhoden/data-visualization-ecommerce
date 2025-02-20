@@ -16,6 +16,7 @@ function App() {
   const [rainbowChartIsActive, setRainbowChartIsActive] = useState(false);
   const [pieChartIsActive, setPieChartIsActive] = useState(false);
   const [data, setData] = useState([]);
+  const [countryList, setCountryList] = useState<any[]>([]);
   const [mapChartData, setMapChartData] = useState<any[]>([]);
   const [rainbowChartData, setRainbowChartData] = useState<any[]>([]);
   const [pieChartData, setPieChartData] = useState<any[]>([]);
@@ -87,6 +88,7 @@ function App() {
       datedData.push({date: newDate.getTime(), value: filterByDate.length});
     });
     console.log('curious about this: ', organizedData);
+    setCountryList(countries);
     setOverallRevenue(revenue);
     setPieChartData(result);
     setMapChartData(organizedData);
@@ -103,7 +105,7 @@ function App() {
 
   // maybe try loading the data here and then passing it to each individual component ... 
   // try this but ultimately recognize that it might be better to go ahead and pass it in for each individual component
-  
+
   return (
     <>
       <Button onClick={() => {handleMapToggle('map')}}>Map</Button>
@@ -111,7 +113,7 @@ function App() {
       <Button onClick={() => {handleMapToggle('rainbow')}}>Rainbow Chart</Button>
       <Button onClick={() => {handleMapToggle('pie')}}>Pie Chart</Button>
       {(mapIsActive && mapChartData.length > 0) ? (
-        <Map data={mapChartData} />
+        <Map data={mapChartData} countries={countryList} />
         ) : (
           <div className="loader-guy" style={mapIsActive ? {display: 'flex'} : {display: 'none'}}>
             <ClimbingBoxLoader color="#213547" size={30} />

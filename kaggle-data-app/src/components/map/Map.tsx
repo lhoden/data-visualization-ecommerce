@@ -5,8 +5,7 @@ import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import * as am5 from "@amcharts/amcharts5";
 import { StyledTable } from './Map.styled';
-import { Space, Table, Tag } from 'antd';
-import type { TableProps } from 'antd';
+import { Button } from 'antd';
 
 function Map(props: any) {
     const [showTable, setShowTable] = useState(false);
@@ -107,9 +106,7 @@ function Map(props: any) {
         let grabSomeCoolData = (name: 'string') => {
             let countryData: any[] = [];
             props.data.forEach((entry: any) => {
-                console.log('huh: ', entry[0]['Country']);
                 if (entry[0]['Country'] === name) {
-                    console.log('YAYYYY: ', entry);
                     //
                     entry.forEach((row: any, index: number) => {
                         countryData.push({
@@ -129,10 +126,6 @@ function Map(props: any) {
             });
         }
 
-        // TODO: okay so we just need to modify this!!! Iterate through this really quickly with a for each and 
-        // create a new data structure that is identical to this but within properties includes the # of invoices
-        // So a simple for each, pulling up the country name, comparing it to our list of countries, and modifying 
-        // properties to include that value if so!! Easy
         // Create main polygon series for countries
         // https://www.amcharts.com/docs/v5/charts/map-chart/map-polygon-series/
         let polygonSeries = chart.series.push(MapPolygonSeries.new(root, {
@@ -140,12 +133,10 @@ function Map(props: any) {
         }));
 
         polygonSeries.mapPolygons.template.setAll({
-            tooltipText: "{name} \n # of orders in {name}",
+            tooltipText: "{name}",
             toggleKey: "active",
             interactive: true
         });
-
-        console.log('test: ', am5geodata_worldLow);
 
         polygonSeries.mapPolygons.template.states.create("hover", {
             fill: root.interfaceColors.get("primaryButtonHover")
@@ -176,8 +167,6 @@ function Map(props: any) {
         graticuleSeries.mapLines.template.set("strokeOpacity", 0.1)
 
         let handleDoubleClick = (element: any) => {
-            console.log('clicked element: ', element.dataItem, element.dataItem.get("id"), element.dataItem.dataContext.name);
-
             grabSomeCoolData(element.dataItem.dataContext.name);
             setShowTable(true);
         }
@@ -186,8 +175,7 @@ function Map(props: any) {
         let previousPolygon: any;
         let clickedElement: any;
 
-        // TODO: we want a function just like this but on double click to trigger the dialog
-        // Make this an MUI dialog and import it and just return it in the base of this component
+        // Listens for double click
         polygonSeries.mapPolygons.template.on("active", function(active: any, target: any) {
             if (previousPolygon && previousPolygon != target) {
                 previousPolygon.set("active", false);
@@ -208,7 +196,6 @@ function Map(props: any) {
         });
 
         function selectCountry(id: any) {
-            console.log('cool!!! ');
             let dataItem = polygonSeries.getDataItemById(id);
             let target = dataItem?.get("mapPolygon");
             if (target) {
@@ -219,6 +206,18 @@ function Map(props: any) {
                 }
             }
         }
+
+        // TODO: FINALLY!!!!! Got the colors working! Now set it to a different color that goes better with the blue and give the user
+        // a key at the top so they know that the orange ones contain customers
+        polygonSeries.events.on("datavalidated", function(ev) {
+            ev.target.mapPolygons.each(function(polygon) {
+                if (props.countries.includes(polygon.dataItem.dataContext.name)) {
+                    polygon.adapters.add("fill", function(fill, target) {
+                        return am5.color('#FEDC56');
+                    });
+                }
+            });
+        });
 
         // Make stuff animate on load
         chart.appear(1000, 100);
@@ -236,7 +235,12 @@ function Map(props: any) {
                 <div id="chartdiv" style={{ width: "100%", height: "80%" }}></div>
             </>
         ) : (
-            <StyledTable dataSource={filteredData} columns={columns} />
+            <>
+                <div className="back-button-container">
+                    <Button onClick={() => {window.location.reload()}}>Back</Button>
+                </div>
+                <StyledTable dataSource={filteredData} columns={columns} />
+            </>
         )}
       </>
     );
