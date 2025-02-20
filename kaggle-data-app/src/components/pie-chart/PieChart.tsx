@@ -90,7 +90,7 @@ function DividedPieChart(props: any) {
 
     return (
         <>
-          <h1>Countries and percent of total revenue</h1>
+          <h1>Profit Margin</h1>
           <div id="chartdiv"></div>
         </>
     );

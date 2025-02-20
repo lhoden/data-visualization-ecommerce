@@ -176,7 +176,7 @@ return () => {
 
 return (
   <>
-    <h1>Number of Orders per Date</h1>
+    <h1>Time Series</h1>
     <div id="chartdiv"></div>
   </>
 );
