@@ -176,10 +176,10 @@ function App() {
           tags={<Tag color="blue">Running</Tag>}
           subTitle="Chart data"
           extra={[
-            <Button key="3">Operation</Button>,
-            <Button key="2">Operation</Button>,
+            <Button key="3">Sign Up</Button>,
+            <Button key="2">Login</Button>,
             <Button key="1" type="primary">
-              Primary
+              Import Data
             </Button>,
           ]}
         >

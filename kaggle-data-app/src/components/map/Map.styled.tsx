@@ -17,6 +17,6 @@ export const StyledTable = styled(Table)`
 	animation-iteration-count: 1;
 	animation-timing-function: ease-in;
 	animation-duration: 0.5s;
-    margin: 10em 5em 0 5em;
+    margin: 3em 5em 0 5em;
 	padding-left: 2em;
 `;

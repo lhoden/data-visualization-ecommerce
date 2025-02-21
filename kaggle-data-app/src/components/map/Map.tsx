@@ -237,9 +237,6 @@ function Map(props: any) {
             </>
         ) : (
             <>
-                <div className="back-button-container">
-                    <Button onClick={() => {window.location.reload()}}>Back</Button>
-                </div>
                 <StyledTable dataSource={filteredData} columns={columns} />
             </>
         )}
