@@ -42,7 +42,7 @@
 
 .loader-guy {
   justify-content: center;
-  margin-top: 20vh;
+  margin-top: 40vh;
 }
 
 .back-button-container {
@@ -52,6 +52,7 @@
 
 .menu-container {
   position: absolute;
+  z-index: 1000;
 }
 
 .menu-container ul {
@@ -59,18 +60,24 @@
 }
 
 h1 {
-  width: 95%;
+  margin-top: 1em;
+  width: 100%;
   float: right;
 }
 
 #chartdiv {
-  width: 95%;
+  width: 100%;
   height: 70%;
   float: right;
 }
 
+.time-series-chart {
+  width: 95% !important;
+}
+
 .bi-header {
-  background: #001529;
+  background: rgb(0,21,41);
+  background: linear-gradient(90deg, rgba(0,21,41,1) 0%, rgba(125,71,166,1) 55%, rgba(59,144,246,1) 100%);
 }
 
 .ant-page-header-heading-title, .ant-page-header-heading-sub-title, .ant-statistic-content-value, .ant-statistic-title, .ant-statistic-content-prefix, .ant-page-header-back-button {
@@ -99,10 +106,15 @@ h1 {
 .ant-page-header .ant-page-header-heading {
   float: right;
   margin-top: -5em;
+  display: none;
 }
 
 .ant-page-header-content {
   padding: 0 !important;
+  position: absolute;
+  top: -5em;
+  right: 0;
+  margin-right: 2em;
 }
 
 .ant-page-header-heading-title {
@@ -110,5 +122,5 @@ h1 {
 }
 
 :where(.css-dev-only-do-not-override-19lec04).ant-statistic {
-  margin-right: 10em;
+  margin-left: 10em;
 }

@@ -8,7 +8,7 @@ import { Button, Menu, Tag, Row, Statistic } from 'antd';
 import type { MenuProps } from 'antd';
 import { csv } from "d3-fetch";
 import * as am5 from "@amcharts/amcharts5";
-import { ClimbingBoxLoader } from "react-spinners";
+import { ClimbingBoxLoader, PropagateLoader } from "react-spinners";
 import { PageHeader } from '@ant-design/pro-layout';
 import logo from './bars-logo.png';
 
@@ -175,13 +175,6 @@ function App() {
           title="Title"
           tags={<Tag color="blue">Running</Tag>}
           subTitle="Chart data"
-          extra={[
-            <Button key="3">Sign Up</Button>,
-            <Button key="2">Login</Button>,
-            <Button key="1" type="primary">
-              Import Data
-            </Button>,
-          ]}
         >
           <Row>
             <Statistic style={{color: '#fff'}} title="Status" value="Pending" />
@@ -202,7 +195,7 @@ function App() {
         <Map data={mapChartData} countries={countryList} />
         ) : (
           <div className="loader-guy" style={mapIsActive ? {display: 'flex'} : {display: 'none'}}>
-            <ClimbingBoxLoader color="#213547" size={30} />
+            <PropagateLoader color="#213547" size={30} />
           </div>
         )
       }

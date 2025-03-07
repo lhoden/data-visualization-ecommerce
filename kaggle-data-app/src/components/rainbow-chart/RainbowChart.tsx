@@ -177,7 +177,7 @@ return () => {
 return (
   <>
     <h1>Time Series</h1>
-    <div id="chartdiv"></div>
+    <div id="chartdiv" className="time-series-chart"></div>
   </>
 );
 }
