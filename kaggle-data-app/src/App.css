@@ -124,3 +124,9 @@ h1 {
 :where(.css-dev-only-do-not-override-19lec04).ant-statistic {
   margin-left: 10em;
 }
+
+@media screen and (max-width: 950px) {
+  .ant-row {
+    display: none;
+  }
+}
