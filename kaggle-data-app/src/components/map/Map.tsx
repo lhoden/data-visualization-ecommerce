@@ -5,38 +5,12 @@ import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import * as am5 from "@amcharts/amcharts5";
 import { StyledTable } from './Map.styled';
-import { Button } from 'antd';
 
 function Map(props: any) {
     const [showTable, setShowTable] = useState(false);
     const [filteredData, setFilteredData] = useState<any[]>([]);
 
-    const dataSource = [
-        {
-          key: '1',
-          country: 'Brazil',
-          customerId: 32,
-          description: 'Cool product name',
-          invoiceDate: '',
-          invoiceNo: '',
-          quantity: '',
-          stockCode: '',
-          unitPrice: '',
-        },
-        {
-          key: '2',
-          country: 'Brazil',
-          customerId: 32,
-          description: 'Cool product name',
-          invoiceDate: '',
-          invoiceNo: '',
-          quantity: '',
-          stockCode: '',
-          unitPrice: '',
-        },
-      ];
-      
-      const columns = [
+    const columns = [
         {
             title: 'Country',
             dataIndex: 'country',
@@ -178,6 +152,7 @@ function Map(props: any) {
 
         // Listens for double click
         polygonSeries.mapPolygons.template.on("active", function(active: any, target: any) {
+            console.log('active element: ', active);
             if (previousPolygon && previousPolygon != target) {
                 previousPolygon.set("active", false);
             }
@@ -211,9 +186,9 @@ function Map(props: any) {
         // TODO: FINALLY!!!!! Got the colors working! Now set it to a different color that goes better with the blue and give the user
         // a key at the top so they know that the orange ones contain customers
         polygonSeries.events.on("datavalidated", function(ev) {
-            ev.target.mapPolygons.each(function(polygon) {
+            ev.target.mapPolygons.each(function(polygon: any) {
                 if (props.countries.includes(polygon.dataItem.dataContext.name)) {
-                    polygon.adapters.add("fill", function(fill, target) {
+                    polygon.adapters.add("fill", function() {
                         return am5.color('#FFD700');
                     });
                 }

@@ -4,20 +4,15 @@ import Map from './components/map/Map';
 import StandardChart from './components/standard-chart/StandardChart';
 import RainbowChart from './components/rainbow-chart/RainbowChart';
 import PieChart from './components/pie-chart/PieChart';
-import { Button, Menu, Tag, Row, Statistic } from 'antd';
+import { Menu, Tag, Row, Statistic } from 'antd';
 import type { MenuProps } from 'antd';
 import { csv } from "d3-fetch";
 import * as am5 from "@amcharts/amcharts5";
-import { ClimbingBoxLoader, PropagateLoader } from "react-spinners";
+import { PropagateLoader } from "react-spinners";
 import { PageHeader } from '@ant-design/pro-layout';
 import logo from './bars-logo.png';
 
 import {
-  AppstoreOutlined,
-  DesktopOutlined,
-  MailOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   PieChartOutlined,
   BarChartOutlined,
   RadarChartOutlined,
@@ -52,29 +47,20 @@ function App() {
   const [standardChartIsActive, setStandardChartIsActive] = useState(false);
   const [rainbowChartIsActive, setRainbowChartIsActive] = useState(false);
   const [pieChartIsActive, setPieChartIsActive] = useState(false);
-  const [data, setData] = useState([]);
   const [countryList, setCountryList] = useState<any[]>([]);
   const [mapChartData, setMapChartData] = useState<any[]>([]);
   const [rainbowChartData, setRainbowChartData] = useState<any[]>([]);
   const [pieChartData, setPieChartData] = useState<any[]>([]);
   const [overallRevenue, setOverallRevenue] = useState(0);
-  const [collapsed, setCollapsed] = useState(true);
-
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
 
   useEffect(() => {
     csv('data.csv').then((data: any) => {
-      setData(data);
       sectionChartData(data);
     });
   }, []);
 
   const handleMapToggle = (e: any) => {
-    console.log('test: ', e.key);
     const selected = items.find(x => x?.key === e.key);
-    console.log('huh: ', JSON.stringify(selected).includes('Map'));
     setMapIsActive(false);
     setStandardChartIsActive(false);
     setRainbowChartIsActive(false);
@@ -140,17 +126,6 @@ function App() {
     setRainbowChartData(datedData);
   }
   
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
-
-  // maybe try loading the data here and then passing it to each individual component ... 
-  // try this but ultimately recognize that it might be better to go ahead and pass it in for each individual component
-
   return (
     <>
       <div style={{ width: 256 }} className="menu-container">
@@ -160,7 +135,7 @@ function App() {
           mode="inline"
           theme="dark"
           onClick={(e) => {handleMapToggle(e)}}
-          inlineCollapsed={collapsed}
+          inlineCollapsed={true}
           items={items}
         />
       </div>
@@ -177,7 +152,7 @@ function App() {
           subTitle="Chart data"
         >
           <Row>
-            <Statistic style={{color: '#fff'}} title="Status" value="Pending" />
+            <Statistic style={{color: '#fff'}} title="Status" value="Active" />
             <Statistic
               title="Primary"
               value="United Kingdom"

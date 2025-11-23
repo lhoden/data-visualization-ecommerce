@@ -1,6 +1,5 @@
 /* Imports */
 import { useLayoutEffect } from 'react';
-import am5index from "@amcharts/amcharts5/index";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
@@ -35,7 +34,7 @@ function RainbowChart(props: any) {
 
     // Create chart
     // https://www.amcharts.com/docs/v5/charts/xy-chart/
-    let chart = root.container.children.push(am5xy.XYChart.new(root, {
+    let chart: any = root.container.children.push(am5xy.XYChart.new(root, {
     wheelX: "panX",
     wheelY: "zoomX",
     paddingLeft: 0
@@ -53,25 +52,6 @@ function RainbowChart(props: any) {
     // Generate random data
     let date = new Date();
     date.setHours(0, 0, 0, 0);
-    let value = 100;
-
-    function generateData() {
-    value = Math.round((Math.random() * 10 - 5) + value);
-    am5.time.add(date, "day", 1);
-    return {
-        date: date.getTime(),
-        value: value
-    };
-    }
-
-    function generateDatas(count) {
-        let data = [];
-        for (var i = 0; i < count; ++i) {
-            data.push(generateData());
-        }
-        console.log('just want to see what this looks like: ', data);
-        return data;
-    }
 
 
     // Create axes
@@ -115,12 +95,14 @@ function RainbowChart(props: any) {
     }));
 
     series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
-    series.columns.template.adapters.add("fill", function (fill, target) {
-    return chart.get("colors").getIndex(series.columns.indexOf(target));
+    series.columns.template.adapters.add("fill", function (fill: any, target: any) {
+        console.log("fill: ", fill);
+        return chart.get("colors").getIndex(series.columns.indexOf(target));
     });
 
-    series.columns.template.adapters.add("stroke", function (stroke, target) {
-    return chart.get("colors").getIndex(series.columns.indexOf(target));
+    series.columns.template.adapters.add("stroke", function (stroke: any, target: any) {
+        console.log("stroke: ", stroke);
+        return chart.get("colors").getIndex(series.columns.indexOf(target));
     });
 
 
@@ -129,14 +111,14 @@ function RainbowChart(props: any) {
 
     // register down
     chart.plotContainer.events.on("pointerdown", function () {
-    isDown = true;
+        isDown = true;
     })
     // register up
     chart.plotContainer.events.on("globalpointerup", function () {
-    isDown = false;
+        isDown = false;
     })
 
-    chart.plotContainer.events.on("globalpointermove", function (e) {
+    chart.plotContainer.events.on("globalpointermove", function (e: any) {
     // if pointer is down
     if (isDown) {
         // get tooltip data item 

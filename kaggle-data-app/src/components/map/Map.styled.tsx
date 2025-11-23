@@ -1,6 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { Space, Table, Tag } from 'antd';
-import type { TableProps } from 'antd';
+import { Table } from 'antd';
 
 const FadeInOpacity = keyframes`
 	0% {

@@ -64,14 +64,13 @@ function DividedPieChart(props: any) {
     });
 
     series.events.on("datavalidated", function() {
-        am5.array.each(series.dataItems, function(dataItem) {
+        am5.array.each(series.dataItems, function(dataItem: any) {
           if (dataItem.get("category") == "United Kingdom") {
             dataItem.hide();
             legend.data.push(dataItem);
           } else if (dataItem.get("value") <= 2000) {
             dataItem.hide();
             legend.data.push(dataItem);
-            console.log('okay: ', dataItem);
           }
           else {
             legend.data.push(dataItem);

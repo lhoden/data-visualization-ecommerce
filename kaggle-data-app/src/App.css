@@ -84,6 +84,10 @@ h1 {
   color: lightgrey !important;
 }
 
+.ant-statistic {
+  padding: 0 2em !important;
+}
+
 :where(.css-dev-only-do-not-override-19lec04).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-19lec04).ant-menu-dark>.ant-menu .ant-menu-item-selected {
   background: #FFD700;
 }
